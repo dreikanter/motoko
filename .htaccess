@@ -1,0 +1,11 @@
+ErrorDocument 404 /motoko/index.php
+ErrorDocument 403 /motoko/index.php
+ErrorDocument 401 /motoko/index.php
+
+<IfModule mod_php4.c>
+php_value magic_quotes_gpc off
+</IfModule>
+
+<Files mtk-pathes.inc.php>
+Deny from all
+</Files>
