@@ -1,9 +1,0 @@
-ErrorDocument 401 /blog/index.php
-ErrorDocument 403 /blog/index.php
-ErrorDocument 404 /blog/index.php
-
-#CharsetDisable on
-
-#<IfModule mod_php4.c>
-#php_value magic_quotes_gpc off
-#</IfModule>

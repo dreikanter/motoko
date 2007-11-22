@@ -1,5 +1,0 @@
-Motoko (or MTK in a short way) is an open source content management system for personal blogs. It provides all important features for publishing and organizing user’s text content. The main goals of the project are ease of using, low system requirements, high performance and self-sufficiency. It means that after installing MTK on a web-server there will be no need to perform long and difficult customization, like selecting and installing a pile of plugins to add some features not presented in base functionality.
-Motoko written in PHP4 and uses one of the most popular database servers — MySQL. Database interaction is built on abstract layer, witch makes possible to use some other DBMS like Postgres or MS SQL Server. CMS uses strong two-levels caching to improve performance. There are available internal database backup capabilities, themes support, RSS export and much more other useful features.
-
-You can found the latest release at http://sourceforge.net/projects/motoko.
-For installation instructions and other documentation, please refer to the MTK wiki at http://motoko.ru.
