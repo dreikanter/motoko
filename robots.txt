@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /page/
+Disallow: /mtk/
+Disallow: /mtk-conf/
+Disallow: /mtk-data/
+Disallow: /mtk-pages/

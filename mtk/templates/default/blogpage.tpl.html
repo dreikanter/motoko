@@ -1,0 +1,37 @@
+{ include file="header.tpl.html" }
+<tr><td width="70%" valign="top" id="mcol">
+
+{ if $prev_page_num || $next_page_num }<table width="100%" cellpadding="0" cellspacing="0" border="0" id="page_browser_top"><tr>
+<td>{ if $prev_page_num }<a href="{ $prev_page_url }">&larr;&nbsp;Previous page</a>{ else }Last page{ /if }</td>
+<td align="right">{ if $next_page_num }<a href="{ $next_page_url }">Next page&nbsp;&rarr;</a>{ else }First page{ /if }</td>
+</tr></table>
+{ /if }
+{ foreach key=post_id value=post from=$posts }
+<div class="post">
+<h3{ if $post.status != 0 } class="{ if $post.status == 1}private{ elseif $post.status == 2}community{ else }draft{ /if }"{ /if }><span class="post_title"><a href="{ $_root_url }posts/{ $post_id }">{ if $post.title == "" }<span class="silver">Untitled post</span>{ else }{ $post.title }{ /if }</a></span> <span class="cat">@ <a href="{ $_root_url }{ $post.cat_shortcut }">{ $post.cat_title }</a></span></h3>
+
+<table class="info"><tr><td align="right" valign="top">Timestamp:</td><td width="100%">{ insert name="date" format="d / m / Y @ H:i:s" time=$post.ctime link=0 }</td>{ if $post.status != 0 }<td valign="top" rowspan="3"><span class="status_{ if $post.status == 1 }private{ elseif $post.status == 2 }community{ else }draft{ /if }">{ $post.status_desc }</span></td>{ /if }</tr>
+<tr><td align="right" valign="top">Author:</td><td>{ if $post.user_id > -1 }<a href="{ $_root_url }users/{ $post.user_login }">{ /if }{ if $post.user_name }{ $post.user_name }{ else }{ $post.user_login }{ /if }{ if $post.user_id > -1 }</a>{ else }{ $post.user_name }{ /if }</td></tr>
+<tr><td align="right" valign="top">Tags:</td><td>{insert name="tag_list" tags=$post.cached_tags atags=$actual_tags root_url=$_root_url }</td></tr></table>
+
+<div class="post_content">{ $post.cached_content }</div>
+
+<div class="sublinks">
+{ if $post.can_change }<a href="{ $_root_url }edit-post/{ $post_id }">Edit</a> | { /if }
+{ if $post.can_delete }<a href="{ $_root_url }delete-post/{ $post_id }">Delete</a> | { /if }
+<a href="{ $_root_url }posts/{ $post.post_id }">{ if $post.cached_com_cnt == 0 }Leave the first comment{ elseif $post.cached_com_cnt == 1 }1 comment{ else }{ $post.cached_com_cnt } comments{ /if }</a>
+</div>
+
+</div>
+{ foreachelse }
+<div class="gray_notice">There are no posts here.{ if $page_number > 1 } You may jump to the <a href="{ $_root_url }">first page</a>.{ /if }</a></div>
+{ /foreach }
+
+{ if $prev_page_num || $next_page_num }<table width="100%" cellpadding="0" cellspacing="0" border="0" id="page_browser_top"><tr>
+<td>{ if $prev_page_num }<a href="{ $prev_page_url }">&larr;&nbsp;Previous page</a>{ else }Last page{ /if }</td>
+<td align="right">{ if $next_page_num }<a href="{ $next_page_url }">Next page&nbsp;&rarr;</a>{ else }First page{ /if }</td>
+</tr></table>
+{ /if }
+</td>
+{ include file="sidebar.tpl.html" }
+{ include file="footer.tpl.html" }

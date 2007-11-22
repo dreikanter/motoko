@@ -1,0 +1,16 @@
+{ include file="header.tpl.html" }
+<tr><td width="70%" valign="top" id="mcol">
+
+<h2>Backups list</h2>
+
+<ul class="actions"><li><a href="{ $_root_url }backup">Perform database backup now</a></li></ul>
+
+{ if $backup_count }<div class="list"><table cellpadding="0" cellspacing="0" border="0">
+<tr><th width="100%">Backup timestamp</th><th>Actions</th><th>Weight</th></tr>
+{ foreach from=$backups key=ctime value=weight }<tr class="{ cycle values="dark,light" }"><td>{ insert name="date" format="d/m/Y @ H:i:s" time=$ctime link=0 }</td>
+<td><span class="control_links"><a href="{ $_root_url }restore/{ $ctime }">Restore</a>&nbsp;|&nbsp;<a href="{ $_root_url }delete-backup/{ $ctime }">Delete</a></span></td>
+<td><span class="cnt">{ insert name="format_weight" weight=$weight }</span></td></tr>
+{ /foreach }</table></div>{ else }<div class="gray_notice">There are no backups created yet.</div>{ /if }
+</td>
+{ include file="sidebar.tpl.html" }
+{ include file="footer.tpl.html" }

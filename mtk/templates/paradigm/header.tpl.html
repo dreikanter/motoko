@@ -1,0 +1,20 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+<title>{ if $page_title }{ $page_title }{ else }{ $_blog_title }{ /if }</title>
+<link rel="stylesheet" type="text/css" href="{ $_tpl_url }style.css">
+{ if ($_action == "blogpage") || ($_action == "post")}<link rel='alternate' type='application/rss+xml' title='RSS' href='{ $_root_url }{ if isset($current_cat_id) && ($current_cat_id > -1) && ($_action == 'blogpage') }cid/{ $current_cat_id }/{ /if }rss'>
+{ /if }
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+
+<body>
+
+<table width="100%" cellpadding="10" cellspacing="0" border="0" id="layout"><tr>
+<td id="header"><h1>{ if $_action != 'blogpage' || $page_number !== 1 || $actual_tags || $current_cat_id != -1}<a href="{ $_root_url }" onclick="javascript:this.blur();">{ /if }<img src="{ $_tpl_url }img/paradigm.gif" width="300" height="50" alt="{ $_blog_title }{ if $_blog_subtitle } | { $_blog_subtitle }{ /if }">{ if $_action != 'blogpage' || $page_number !== 1 || $actual_tags || $current_cat_id != -1}</a>{ /if }</h1></td>
+<td id="header_info">{ if $_user_authorized }<span class="silver"><strong>{ $_user_login }</strong> is logged in</span>{ else }<span class="silver">user not logged</span>{ /if }</td></tr>
+
+{ if $_system_message != "" }<tr><td colspan="2" id="system_message">{ $_system_message }
+<small><a href="#" onclick="javascript:document.getElementById('system_message').className = 'hidden';" class="x">X</a></small></span>
+</td></tr>{ /if }

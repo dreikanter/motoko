@@ -1,0 +1,53 @@
+<td width="20%" valign="top" id="rcol">
+{ if $_action != "cats" }<div class="cats_menu"><h4>Categories</h4>
+<ul>{ if isset($current_cat_id) && $current_cat_id == -1 && $_action == 'blogpage' }<li class="active"><nobr>All posts</nobr></li>{ else }<li><nobr><a href="{ $_root_url }">All posts</a></nobr></li>{ /if }
+{ foreach key=cat_id value=cat from=$cats }{ if isset($current_cat_id) && $cat.cat_id === $current_cat_id }<li class="active"><nobr>{ $cat.title }<small class="cat_cnt"> ({ $cat.count })</small></nobr></li>{ else }<li><nobr><a href="{ $_root_url }{ $cat.shortcut }"{ if $cat.description } title="{ $cat.description_nohtml }"{ /if }{ if $cat.cat_id == 0 } class="uncategorized"{ /if }>{ $cat.title }<small class="cat_cnt"> ({ $cat.count })</small></a></nobr></li>{ /if }{ /foreach }</ul>
+</div>{ /if }
+{ if $_action == 'blogpage' }{ if isset($page_number) && $page_number == 1 && isset($current_cat_id) && $current_cat_id == -1 }<div class="section">{ $_blog_abstract }</div>
+{ elseif isset($current_cat_desc) && $current_cat_desc }<div class="section"><h4>Category description</h4><p>{ $current_cat_desc }</p></div>{ /if }{ /if }
+<div class="section"><h4>Blog</h4>
+<ul>
+{ if $_user_authorized != 1 }<li><a href="{ $_root_url}login">Log in</a></li>{ /if }
+{ if $_user_poster == 1 && ($_action != "postedit" || $post_id != -1) }<li><a href="{ $_root_url }post">Write a new post</a></li>{ /if }
+{ if isset($page_number) && $page_number !== 1 }<li><a href="{ $_root_url }">Recent entries</a></li>{ /if }
+{ if $_action != "cats" }<li><a href="{ $_root_url }cats">Categories list</a></li>{ /if }
+{ if $_action != 'tags' }<li><a href="{ $_root_url }tags">Tags cloud</a></li>{ /if }
+{ if $_user_authorized && !isset($current_user_profile) }<li><a href="{ $_root_url }users/{ $_user_login }">User profile</a></li>{ /if }
+{ if $_action != "users" }<li><a href="{ $_root_url }users">Users list</a></li>{ /if }
+{ if $_user_authorized && $_user_supervisor && $_action != 'settings' }<li><a href="{ $_root_url }settings">Settings</a></li>{ /if }
+{ if $_user_authorized && $_user_supervisor && $_action != 'backups' }<li><a href="{ $_root_url }backups">Backup</a></li>{ /if }
+{ if $_user_authorized }<li><a href="{ $_root_url}logout" onclick="javascript:return confirm('Do you really want to log out?');" style="color:#990000;">Log out</a></li>{ /if }
+</ul></div>
+{ if isset($where_am_i) && $where_am_i }<div class="section"><h4>Where am I?</h4><p>{ $where_am_i }</p></div>{ /if }
+{ if $_action != "tags" && isset($actual_tags) && is_array($actual_tags) }<div class="section"><h4>Actual tags</h4>
+<ul>{ foreach value=tag from=$actual_tags }
+<li><a href="{ $_root_url }tags/{ $tag.tag }">{ $tag.tag }</a> <a href="{ $_root_url }{ if $tag.remove }tags/{ $tag.remove }{ else }{ /if }" title="Remove this from filter" class="red">X</a></li>
+{ /foreach }</ul>
+<p class="ul_ctrl"><small><a href="{ $_root_url }">Clean actual tags list</a></small></p>
+</div>{ /if }
+{ if $_action != "tags" }<div class="section">{ if isset($rel_tags) && is_array($rel_tags) }<h4>Relative tags</h4>
+
+<ul>{ foreach value=tag from=$rel_tags }
+<li><a href="{ $_root_url }tags/{ $tag.tag }">{ $tag.tag }</a> <a href="{ $tag.add }" class="green">+</a></li>
+{ /foreach }</ul>
+
+{ else }{ if count($popular_tags) }<h4>Popular tags</h4>
+
+<ul>{ foreach value=tag from=$popular_tags }
+<li><a href="{ $_root_url }tags/{ $tag.tag }">{ $tag.tag }</a> ({ $tag.count })</li>
+{ /foreach }</ul>{ /if }{ /if }
+
+</div>{ /if }
+{ if ($_action == "blogpage") || ($_action == "post")}<div class="section"><h4>Syndication</h4>
+<table><tr>
+<td><a href="{ $_root_url}rss"><img src="{ $_tpl_url }img/feed-icon-16x16.gif" width="16" height="16" alt="RSS 2.0 feed" /></a></td>
+<td><a href="{ $_root_url}rss">Subscribe to RSS feed</a></td>
+</tr></table>
+{ if isset($current_cat_id) && ($current_cat_id > -1) && ($_action == 'blogpage') }
+<table><tr>
+<td><a href="{ $_root_url }cid/{ $current_cat_id }/rss"><img src="{ $_tpl_url }img/feed-icon-16x16.gif" width="16" height="16" alt="RSS 2.0 feed" /></a></td>
+<td><a href="{ $_root_url }cid/{ $current_cat_id }/rss">Subscribe to current category</a></td>
+</tr></table>
+{ /if }</div>{ /if }
+{ include file="sidebar_bottom.tpl.html" }
+</td></tr>

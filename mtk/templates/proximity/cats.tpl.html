@@ -1,0 +1,16 @@
+{ include file="header.tpl.html" }
+<tr><td width="70%" valign="top" id="mcol">
+
+<h2>Categories list</h2>
+
+{ if $can_manage_cats }<ul class="actions"><li><a href="{ $_root_url }add-cat">Create new category</a></li></ul>{ /if }
+
+<div class="list"><table cellpadding="0" cellspacing="0" border="0">
+<tr><th width="100%">Category</th>{ if $can_manage_cats }<th>Actions</th>{ /if }<th>Posts&nbsp;count</th></tr>
+{ foreach from=$cats value=cat }<tr class="{ cycle values="dark,light" }"><td><p><a href="{ $_root_url }{ if $cat.shortcut }{ $cat.shortcut }{ else }cid/{ $cat.cat_id }{ /if }">{ $cat.title }</a></p>{ if $cat.cached_description }<p>{ $cat.cached_description }</p>{ /if }</td>{ if $can_manage_cats }
+<td><span class="control_links"><a href="{ $_root_url }edit-cat/{ $cat.cat_id }">Edit</a>{ if $cat.cat_id != 0 }&nbsp;|&nbsp;<a href="{ $_root_url }delete-cat/{ $cat.cat_id }" style="color:#990000;">Delete</a>{ /if }</span></td>{ /if }
+<td><span class="cnt">{ $cat.count }</span></td></tr>
+{ /foreach }</table></div>
+</td>
+{ include file="sidebar.tpl.html" }
+{ include file="footer.tpl.html" }

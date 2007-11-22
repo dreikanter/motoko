@@ -1,0 +1,57 @@
+{ include file="header.tpl.html" }
+<tr><td width="70%" valign="top" id="mcol">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" id="page_browser_top"><tr>
+<td>{ if $prev_url == "" }Last page{ else }<a href="{ $prev_url }">&larr;&nbsp;Previous page</a>{ /if }</td>
+<td align="right">{ if $next_url == "" }First page{ else }<a href="{ $next_url }">Next page&nbsp;&rarr;</a>{ /if }</td>
+</tr></table>
+
+
+<div class="post">
+
+<h3{ if $post.status != 0 } class="{ if $post.status == 1}private{ elseif $post.status == 2}community{ else }draft{ /if }"{ /if } title="{ $post.status_desc }">{ if $post.title == "" }<span class="silver">Untitled post</span>{ else }{ $post.title }{ /if } <span class="cat">@ <a href="{ $_root_url }{ $post.cat_shortcut }">{ $post.cat_title }</a></span></h3>
+
+<table class="info"><tr><td align="right" valign="top">Timestamp:</td><td width="100%">{ insert name="date" format="d / m / Y @ H:i:s" time=$post.ctime link=0 }</td>{ if $post.status != 0 }<td valign="top" rowspan="3"><span class="status_{ if $post.status == 1 }private{ elseif $post.status == 2 }community{ else }draft{ /if }">{ $post.status_desc }</span></td>{ /if }</tr>
+<tr><td align="right" valign="top">Author:</td><td>{ if $post.user_id > -1 }<a href="{ $_root_url }users/{ $post.user_login }">{ /if }{ if $post.user_name }{ $post.user_name }{ else }{ $post.user_login }{ /if }{ if $post.user_id > -1 }</a>{ else }{ $post.user_name }{ /if }</td></tr>
+<tr><td align="right" valign="top">Tags:</td><td>{insert name="tag_list" tags=$post.cached_tags atags=0 root_url=$_root_url }</td></tr></table>
+
+<div class="post_content">{ $post.cached_content }</div>
+
+<div class="sublinks">{ if $can_change }<a href="{ $_root_url }edit-post/{ $post.post_id }">Edit</a>{ /if }
+{ if $can_change and $can_delete } | { /if }
+{ if $can_delete }<a href="{ $_root_url }delete-post/{ $post.post_id }">Delete</a>{ /if }</div>
+
+</div>
+
+{ if $real_com_cnt > 0 }<h4>Comments</h4>
+
+{ foreach value=comment from=$post.comments }
+{ if $comment.moderated == 0 }<div class="not_mod">{ /if }
+<div class="comment_{ cycle values="dark,light" }">
+{ if $comment.subj }<h5>{ $comment.subj }</h5>{ /if }
+
+<table class="info"><tr>
+<td align="right" valign="top">Timestamp:</td><td>{ insert name="date" format="d / m / Y @ H:i:s" time=$comment.ctime }</td>
+{ if $comment.moderated == 0 || $comment.hidden }<td rowspan="2">{ if $comment.moderated == 0 }<span class="red">Not&nbsp;moderated</span>{ /if }{ if $comment.moderated == 0 and $comment.hidden }, { /if }{ if $comment.hidden }Hidden{ /if }</td>{ /if }</tr>
+<tr><td align="right" valign="top">Author:</td><td width="100%">{ if $comment.user_id == -1 }{ if $comment.author_hp != "" }<a href="{ $comment.author_hp }">{ $comment.author_name }</a>{ else }{ $comment.author_name }{ /if }{ else }<a href="{ $_root_url }uid/{ $comment.user_id }">{ $comment.author_name }</a>{ /if }</td></tr>
+</table>
+
+<div class="comment_content">{ $comment.cached_content }</div>
+{ if $comment.can_change or $comment.can_moderate }<div class="sublinks">
+{ if $comment.can_moderate and $comment.moderated == 0 }<a href="{ $_root_url }approve-comment/{ $comment.comment_id }" onclick="javascript:return confirm('Do you really want to approve this comment?');" style="color:#009900;">Approve</a> | { /if }
+{ if $comment.can_change }<a href="{ $_root_url }edit-comment/{ $comment.comment_id }">Edit</a> | { /if }
+{ if $comment.can_change or $comment.can_moderate }<a href="{ $_root_url }delete-comment/{ $comment.comment_id }" style="color:#990000;">Delete</a>{ /if }
+</div>{ /if }
+{ if $comment.moderated == 0 }</div>{ /if }</div>
+{ /foreach }{ /if }
+
+{ if $comment_form != "" }<h4>Add new comment</h4>{ $comment_form }{ /if }
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" id="page_browser_bottom"><tr>
+<td>{ if $prev_url == "" }Last page{ else }<a href="{ $prev_url }">&larr;&nbsp;Previous page</a>{ /if }</td>
+<td align="right">{ if $next_url == "" }First page{ else }<a href="{ $next_url }">Next page&nbsp;&rarr;</a>{ /if }</td>
+</tr></table>
+
+</td>
+{ include file="sidebar.tpl.html" }
+{ include file="footer.tpl.html" }

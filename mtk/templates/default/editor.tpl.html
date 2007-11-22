@@ -1,0 +1,10 @@
+{ include file="header.tpl.html" }
+<tr><td width="70%" valign="top" id="mcol">
+
+<h2>{ $form_title }</h2>
+{ if isset($error_msg) && $error_msg }<div class="error_message">{ $error_msg }</div>{ /if }
+{ $form }
+
+</td>
+{ include file="sidebar.tpl.html" }
+{ include file="footer.tpl.html" }

@@ -1,0 +1,84 @@
+<?php
+
+// Функции, используемые в теме
+
+/**
+ * Форматирует unix timestamp в соответствии с заданным 
+ * форматом (врапер функции date()). 
+ * Параметры: format (шаблон форматирования), time (юниксовое время),
+ * linked (определяет необходимость сделать гиперлинки для значения года, 
+ * месяца и числа).
+ */
+function insert_date($params, &$tpl) {
+	if(isset($params['link']) && $params['link']) {
+		// Необходимо линковать знчения года, месяца и дня 
+		// к соответствующим архивным страницам
+		$pattern = strtr($params['format'], array("d" => "%1%", "F" => "%2%", "j" => "%3%", 
+			"m" => "%4%", "M" => "%5%", "n" => "%6%", "Y" => "%7%", "y" => "%8%"));
+		$ts = $params['time'];
+		$result = date($pattern, $ts);
+		
+		$yLink = URL_ROOT.date("Y", $ts);
+		$mLink = $yLink.'/'.date("d", $ts);
+		$dLink = $mLink.'/'.date("m", $ts);
+		$yLink = '<a href="'.$yLink.'">';
+		$mLink = '<a href="'.$mLink.'">';
+		$dLink = '<a href="'.$dLink.'">';
+		
+		return strtr($result, array(
+				"%1%" => $dLink.date("d", $ts).'</a>',
+				"%2%" => $mLink.date("F", $ts).'</a>',
+				"%3%" => $dLink.date("j", $ts).'</a>', 
+				"%4%" => $mLink.date("m", $ts).'</a>', 
+				"%5%" => $mLink.date("M", $ts).'</a>', 
+				"%6%" => $mLink.date("n", $ts).'</a>', 
+				"%7%" => $yLink.date("Y", $ts).'</a>', 
+				"%8%" => $yLink.date("y", $ts).'</a>'
+			));
+		
+	}
+	return date($params['format'], $params['time']);
+}
+
+/**
+ * Врапер функции formatWeight (форматирует объём данных).
+ * Параметры: weight (int) Размер файла, который необходимо 
+ * представить в читаемой форме.
+ */
+function insert_format_weight($params, &$tpl) {
+	return formatWeight($params['weight'], 1);
+}
+
+/**
+ * Преобразует массив тагов в линкованный список через 
+ * запятую (строку).
+ * Параметры: tags (массив с названиями тагов)
+ */
+function insert_tag_list($params, &$tpl) {
+	$tags = $params['tags'];
+	if(is_array($params['atags']) && count($params['atags'])) {
+		$actTags = array();
+		foreach($params['atags'] as $tag) $actTags[] = $tag['tag'];
+	} else {
+		$actTags = false;
+	}
+	
+	if(!count($tags)) return '<span class="silver">none</span>';
+	
+	foreach($tags as $num => $tag) {
+		$act = ($actTags && in_array($tag, $actTags))?' class="actual_tag"':'';
+		$tags[$num] = '<a href="'.URL_ROOT.'tags/'.$tag.'"'.$act.'>'.$tag.'</a>';
+	}
+	
+	return implode(", ", $tags);
+}
+
+/**
+ * Generation time
+ */
+function insert_gt($params, &$tpl) {
+	global $START_TIME;
+	return round(getMicroTime() - $START_TIME, 2);
+}
+
+?>

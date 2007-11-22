@@ -1,0 +1,37 @@
+{ include file="header.tpl.html" }
+<tr><td width="70%" valign="top" id="mcol">
+
+<h2>User profile</h2>
+
+<div class="user_profile">
+
+<ul class="actions">{ if $_user_supervisor || ($user_login == $_user_login) }
+<li><a href="{ $_root_url }edit-user/{ $user_id }">Edit user profile</a></li>{ /if }
+<li><a href="{ $_root_url }users">Users list</a></li>
+</ul>
+
+<table width="100%" cellspacing="0" id="user_profile">
+<tr><td width="30%">Login:</td><td width="70%">{ $user_login }<br></td></tr>
+{ if $user_name }<tr><td>Name:</td><td width="80%">{ $user_name }</td></tr>{ /if }
+{ if ($_user_supervisor || ($user_login == $_user_login)) && $user_email }<tr><td>Email:</td><td><a href="mailto:{ $user_email }">{ $user_email }</a><br>
+<small class="silver">(this email will not be shown to any other visitors)</small>
+</td></tr>{ /if }
+{ if $user_hp }<tr><td>Homepage:</td><td><a href="{ $user_hp }">{ $user_hp }</a><br></td></tr>{ /if }
+{ if $user_icq }<tr><td>ICQ:</td><td>{ $user_icq }</td></tr>{ /if }
+<tr><td>Access&nbsp;rights:</td><td><ul>
+{ if $user_ar_commenting }<li>Commenting</li>{ /if }
+{ if $user_ar_reading_c }<li>Community posts reading</li>{ /if }
+{ if $user_ar_posting }<li>Posting</li>{ /if }
+{ if $user_ar_moderation }<li>Moderation</li>{ /if }
+{ if $user_ar_supervising }<li><strong>Supervising</strong></li>{ /if }
+</ul></td></tr>
+{ if $user_description }<tr><td>Description:</td><td>{ $user_description }</td></tr>{ /if }
+{ if $user_posts_cnt }<tr><td>Posts&nbsp;count:</td><td>{ $user_posts_cnt }</td></tr>{ /if }
+{ if $user_com_p_cnt }<tr><td>Comments&nbsp;posted:</td><td>{ $user_com_p_cnt }</td></tr>{ /if }
+{ if $user_com_r_cnt }<tr><td>Comments&nbsp;received:</td><td>{ $user_com_r_cnt }</td></tr>{ /if }
+</table>
+</div>
+
+</td>
+{ include file="sidebar.tpl.html" }
+{ include file="footer.tpl.html" }

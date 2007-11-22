@@ -1,0 +1,13 @@
+{ include file="header.tpl.html" }
+<tr><td width="70%" valign="top" id="mcol">
+
+<h2>{ $page_title }</h2>
+
+{ $content }
+
+</td>{ if $rcol }<td valign="top" id="rcol">
+
+{ $rcol }
+
+</td>{ /if }</tr>
+{ include file="footer.tpl.html" }

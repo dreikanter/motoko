@@ -1,0 +1,21 @@
+{ include file="header.tpl.html" }
+<tr><td width="70%" valign="top" id="mcol">
+
+<h2>Users list</h2>
+
+{ if $_user_supervisor }<ul class="actions"><li><a href="{ $_root_url }add-user">Add new user</a></li></ul>{ /if }
+
+<div class="list"><table width="100%" cellpadding="0" cellspacing="0" border="0">
+<tr><th width="20%">User</th><th width="30%">Name</th><th width="30%">Homepage</th>
+{ if $can_manage_users }<th>Email</th><th>Actions</th>{ /if }<th style="text-align:right;">Posts</th>
+<th style="text-align:right;"><nobr>Comments (&uarr;/&darr;)</nobr></th></tr>
+{ foreach from=$users value=user }<tr class="{ cycle values="dark,light" }">
+<td><a href="{ $_root_url }users/{ $user.login }">{ $user.login }</a></td>
+<td>{ $user.name }</td>
+<td><a href="{ $user.hp }">{ $user.hp }</a></td>
+{ if $can_manage_users }<td><a href="mailto:{ $user.email }">{ $user.email }</a></td>
+<td><span class="control_links"><a href="{ $_root_url }edit-user/{ $user.user_id }">Edit</a>{ if $user.user_id != 0 }&nbsp;|&nbsp;<a href="{ $_root_url }delete-user/{ $user.user_id }" style="color:#990000;">Delete</a>{ /if }</span></td>{ /if }<td><span class="cnt">{ $user.posts_cnt }</span></td><td><span class="cnt">{ $user.com_p_cnt }/{ $user.com_r_cnt }</span></td></tr>
+{ /foreach }</table></div>
+</td>
+{ include file="sidebar.tpl.html" }
+{ include file="footer.tpl.html" }
